@@ -15,7 +15,7 @@ function reset() {
 
 /**
  * Initialise and launch the windows
- * @see http://developer.chrome.com/trunk/apps/app.window.html
+ * @see http://developer.chrome.com/apps/app.window.html
  */
 function launch() {
 
@@ -64,7 +64,6 @@ function launch() {
 
         // now have the copycat watch the
         // original window for changes
-        originalWindow.onMinimized.addListener(minimizeAll);
         originalWindow.onClosed.addListener(reset);
         copycatWindow.onClosed.addListener(reset);
 
@@ -74,26 +73,33 @@ function launch() {
           copycatWindow.setBounds(bounds);
         });
 
-        originalWindow.focus();
+        copycatWindow.onRestored.addListener(function() {
+          console.log('copy restored');
+          if (originalWindow.isMinimized())
+            originalWindow.restore();
+        })
 
+        originalWindow.onRestored.addListener(function() {
+          console.log('copy restored');
+          if (copycatWindow.isMinimized())
+            copycatWindow.restore();
+        })
+
+        originalWindow.focus();
       });
   });
 }
 
 /**
  * Minimises both the original and copycat windows
- * @see http://developer.chrome.com/trunk/apps/app.window.html
+ * @see http://developer.chrome.com/apps/app.window.html
  */
 function minimizeAll() {
 
   windows.forEach( function (w) {
     w.minimize();
   });
-
-  // sets a timeout to kill the windows
-  // if the user minimises them
-  setTimeout(reset, 2000);
 }
 
-// @see http://developer.chrome.com/trunk/apps/app.runtime.html
+// @see http://developer.chrome.com/apps/app.runtime.html
 chrome.app.runtime.onLaunched.addListener(launch);
