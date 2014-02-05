@@ -135,7 +135,8 @@ var googlePlusUserLoader = (function() {
   return {
     onload: function () {
       signin_button = document.querySelector('#signin');
-      signin_button.onclick = interactiveSignIn;
+      signin_button.addEventListener("click", interactiveSignIn);
+      //signin_button.onclick = interactiveSignIn;
 
       revoke_button = document.querySelector('#revoke');
       revoke_button.onclick = revokeToken;
@@ -152,4 +153,5 @@ var googlePlusUserLoader = (function() {
 
 })();
 
-window.onload = googlePlusUserLoader.onload;
+//window.onload = googlePlusUserLoader.onload;
+window.addEventListener("load", googlePlusUserLoader.onload);

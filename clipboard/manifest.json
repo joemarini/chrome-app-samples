@@ -1,0 +1,13 @@
+{
+  "name": "Clipboard Access Sample",
+  "version": "2",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "permissions": [
+    "clipboardRead", "clipboardWrite"
+  ]
+}
